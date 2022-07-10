@@ -4,10 +4,11 @@ import time;from tkinter import *;from tkinter import Text;from tkinter import f
 nya=0
 rlko=0
 #Translation Variables
-lang="tr" # en, tr Change UI language with this variable
+lang="en" # en, tr Change UI language with this variable
 a1="";a2="";a3="";a4="";a5="";a6="";a7="";a8="";a9="";a10=""
 a11="";a12="";a13="";a14="";a15="";a16="";a17="";a18="";a19="";a20="";a21=""
 a22="";a23="";a24="";a25="";a26="";a27="";a28="";a29="";a30="";a31="";a32="";a33="";a34=""
+a32="";a36="";a37=""
 if lang=="en":
     a1="Installed apks:"
     a2="Android Toolbox 『ny4rlk0』 |☾☆|"
@@ -44,6 +45,8 @@ if lang=="en":
     a33="Then unplug the USB. Everytime you reboot the device, "
     a34="if you wanna connect using wifi first you need to connect with cable then press connect."
     a35="Wifi Reverse Shell:"
+    a36="Sideload Firmware (.zip)"
+    a37="Firmware (.zip)"
 if lang=="tr":
     a1="Cihazda yüklü uygulamalar:"
     a2="Android Araç Kutusu 『ny4rlk0』 |☾☆|"
@@ -80,6 +83,8 @@ if lang=="tr":
     a33="ADB Wifi sekmesindeki bağlan butonuna basın. Cihazı her yeniden başlattığınızda kablo ile bağlayıp"
     a34="ADB Wifi sekmesinde bağlan butonuna basmanız gerekmektedir eğer wifi üzerinden bağlanmak istiyorsanız."
     a35="Wifi Komut Satırı:"
+    a36="Sideload Firmware (.zip)"
+    a37="Firmware (.zip)"
 #End Translation Variables
 installed_apk_list=[]
 apk_combobox_list=[]
@@ -427,6 +432,13 @@ def disconnect_adb_overwifi():
         ip=wifibox.get()
         nya_x=sp.Popen(['adb','disconnect',f'{ip}:5555'],stdout=sp.PIPE,shell=True)
         (nya_x, x_err) = nya_x.communicate()
+def sideload_firmware():
+    if device_mode=="adb":
+        file = filedialog.askopenfile(mode='r', filetypes=[(a37, '*.zip')])
+        if file is not None:
+            if ".zip" in file.name or ".ZIP" in file.name:
+                nya_x=sp.Popen(['adb','sideload',f'{file.name}'],stdout=sp.PIPE,shell=True)
+                (nya_x, x_err) = nya_x.communicate()
 #User Interface Settings
 
 #Combo_Box_Apk_Select_List    
@@ -466,6 +478,9 @@ RebootRecovery.grid(row=8,column=1,sticky=W)
 #RebootSystem
 RebootSystem=Button(w,text=a18,width=24,command=reboot_system_fastboot)
 RebootSystem.grid(row=9,column=0,sticky=W)
+#SideloadFirmware
+SideloadFirmware=Button(w,text=a36,width=24,command=sideload_firmware)
+SideloadFirmware.grid(row=9,column=1,sticky=W)
 #MenuAyracı
 ayrac=Label (w, text="FAST BOOT",font="none 12 bold");ayrac.grid(row=10,column=0,sticky=W)
 
