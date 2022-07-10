@@ -5,5 +5,5 @@ Hepsi bir arada android alet çantası.
 <br>Don't forget to install your ADB / FASTBOOT drivers...
  <br>* Screen Shots:
 <p align="center">
-    <img src="1.JPG">
-    <img src="2.JPG">
+    <img src="1.jpg">
+    <img src="2.jpg">
