@@ -4,7 +4,7 @@ import time;from tkinter import *;from tkinter import Text;from tkinter import f
 nya=0
 rlko=0
 #Translation Variables
-lang="tr" # en, tr Change UI langue with this variable
+lang="tr" # en, tr Change UI language with this variable
 a1="";a2="";a3="";a4="";a5="";a6="";a7="";a8="";a9="";a10=""
 a11="";a12="";a13="";a14="";a15="";a16="";a17="";a18="";a19="";a20="";a21=""
 a22="";a23="";a24="";a25="";a26="";a27="";a28="";a29="";a30="";a31="";a32="";a33="";a34=""
@@ -14,7 +14,7 @@ if lang=="en":
     a3="Backup Apk"
     a4="Connected device:"
     a5="No device connected or ADB Driver is not installed."
-    a6="Connect 1 device only!"
+    a6="If you connected via WiFi you can unplug the USB now, also connect 1 device only!"
     a7="Backup apk --->"
     a8="Backup All APK"
     a9="Restore Multiple APK"
@@ -43,13 +43,14 @@ if lang=="en":
     a32="Later if you decide you wanna switch WiFi just hit connect while USB is plugged in."
     a33="Then unplug the USB. Everytime you reboot the device, "
     a34="if you wanna connect using wifi first you need to connect with cable then press connect."
+    a35="Wifi Reverse Shell:"
 if lang=="tr":
     a1="Cihazda yüklü uygulamalar:"
     a2="Android Araç Kutusu 『ny4rlk0』 |☾☆|"
     a3="Apk Yedekle"
     a4="Bağlı cihaz:"
     a5="Bir cihaz bağlı değil ya da Cihazınızın ADB Sürücüsü yüklü değil."
-    a6="Sadece 1 cihaz bağlayın!"
+    a6="Cihaza Wifi aracılığıyla bağlandıysanız USB çıkarabilirsiniz, aynı anda sadece 1 cihaz bağlayın!"
     a7="Apk yedekleniyor --->"
     a8="Tüm APK Yedekle"
     a9="Toplu APK Yükle"
@@ -78,6 +79,7 @@ if lang=="tr":
     a32="bağlantıyı kes butonuna basın. Daha sonra tekrar Wifi ile bağlanmak isterseniz kabloyu bağlıyken,"
     a33="ADB Wifi sekmesindeki bağlan butonuna basın. Cihazı her yeniden başlattığınızda kablo ile bağlayıp"
     a34="ADB Wifi sekmesinde bağlan butonuna basmanız gerekmektedir eğer wifi üzerinden bağlanmak istiyorsanız."
+    a35="Wifi Komut Satırı:"
 #End Translation Variables
 installed_apk_list=[]
 apk_combobox_list=[]
@@ -100,6 +102,16 @@ def scan_apks(path):
                 apk_list.append(os.path.join(file))
                 #print(os.path.join(file))
                 #print(file)
+def reverse_shell():
+    adb_path=os.getcwd()+"\\"+'adb.exe'
+    cmd=adb_path+' '+ReverseShellBox.get()
+    print(cmd)
+    try:
+        out=os.system(cmd)
+        #out=sp.Popen([cmd],stdout=sp.PIPE,shell=True)
+        #(out, err) = out.communicate()
+        print("reverse_shell_log"+str(out))
+    except Exception as e:print("reverse_shell_error_log:"+e)
 def chk_device_connection():
     while True:
         global connected_device, last_device,device_mode,adb_ip
@@ -508,16 +520,23 @@ WifiOverAdb.grid(row=21,column=0,sticky=W)
 #WifiOverADB #Make sure usb is connected at pairing everytime device reboots!
 WifiOverAdb2=Button(w,text=a30,width=24,command=disconnect_adb_overwifi)
 WifiOverAdb2.grid(row=21,column=1,sticky=W)
+#ReverseShellLabel
+ayrac=Label (w, text=a35,font="none 12 bold");ayrac.grid(row=22,column=0,sticky=W)
+#ReverseShellBox
+ReverseShellBox=Entry(w,textvariable='',width=80);ReverseShellBox.grid(row=22,column=1,sticky=W)
+#ReverseShellCommandSendButton
+ReverseShellCommandSendButton=Button(w,text='>',width=24,command=reverse_shell)
+ReverseShellCommandSendButton.grid(row=23,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text=a31,font="none 10");ayrac.grid(row=22,column=1,sticky=W)
+ayrac=Label (w, text=a31,font="none 10");ayrac.grid(row=24,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text=a32,font="none 10");ayrac.grid(row=23,column=1,sticky=W)
+ayrac=Label (w, text=a32,font="none 10");ayrac.grid(row=25,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text=a33,font="none 10");ayrac.grid(row=24,column=1,sticky=W)
+ayrac=Label (w, text=a33,font="none 10");ayrac.grid(row=26,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text=a34,font="none 10");ayrac.grid(row=25,column=1,sticky=W)
+ayrac=Label (w, text=a34,font="none 10");ayrac.grid(row=27,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text="Written by github.com/ny4rlk0 with『❤』",font="none 16");ayrac.grid(row=26,column=1,sticky=W)
+ayrac=Label (w, text="Written by github.com/ny4rlk0 with『❤』",font="none 16");ayrac.grid(row=28,column=1,sticky=W)
 #Constantly_chk_for_device_connection_in_side_proccess
 chk_dev = core(target=chk_device_connection)
 chk_dev.daemon=True
