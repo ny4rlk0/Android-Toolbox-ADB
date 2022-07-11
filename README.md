@@ -7,6 +7,7 @@ Hepsi bir arada android alet çantası.
 <br>You can send commands from USB to device, from Wifi Reverse Shell too.
 <br>* Note:
 <br>Don't forget to install your ADB / FASTBOOT drivers...
+<br>Screenshots may differ from actual program since it started to pain in the ass to change ss everytime i update program. 
  <br>* Screen Shots:
 <p align="center">
     <img src="10.jpg">
