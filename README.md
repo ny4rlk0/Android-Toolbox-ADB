@@ -1,5 +1,19 @@
 # Nyarlko-s-Android-Toolbox
-Hepsi bir arada android alet çantası. 
+<br>TR
+---------------
+<br>Hepsi bir arada android alet çantası. 
+<br>Tüm apk'leri tek bir cihazda veya klasörde, usb veya wifi'den yedekleyin / geri yükleyin. ADB / USB ADB üzerinden Wifi /
+<br>Fastboot / flash / kilit / kilit açma / silme / önyükleme kurtarma, çekirdeğe geçici önyükleme vb.
+<br>Wifi Ters Kabuk 2 ayrı komut satırı olarak çalışır.
+<br>Cihazınız fastboot modundaysa fastboot.exe'yi kullanır.
+<br>Cihazınız ADB hata ayıklama modundaysa adb.exe'yi kullanır.
+<br>USB'den cihaza, Wifi Reverse Shell'den de komut gönderebilirsiniz.
+<br>* Not:
+<br>ADB / FASTBOOT sürücülerinizi kurmayı unutmayınız...
+<br>Programı her güncellediğimde ss'yi değiştirmek uğraştırıcı olmaya başladığı için ekran görüntüleri gerçek programdan farklı olabilir.
+
+<br>EN
+---------------
 <br>All in one android toolbox. Backup / Restore entire apks in single device or folder, from usb or wifi. Wifi over ADB / USB ADB / <br>Fastboot / flash /  lock / unlock / wipe / boot recovery , temp boot to kernel etc.
 <br>Wifi Reverse Shell works as 2 seperate command line.
 <br>If your device in fastboot mode it will use fastboot.exe
