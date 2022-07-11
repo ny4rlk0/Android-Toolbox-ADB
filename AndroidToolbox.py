@@ -4,11 +4,11 @@ import time;from tkinter import *;from tkinter import Text;from tkinter import f
 nya=0
 rlko=0
 #Translation Variables
-lang="en" # en, tr Change UI language with this variable
+lang="tr" # en, tr Change UI language with this variable
 a1="";a2="";a3="";a4="";a5="";a6="";a7="";a8="";a9="";a10=""
 a11="";a12="";a13="";a14="";a15="";a16="";a17="";a18="";a19="";a20="";a21=""
 a22="";a23="";a24="";a25="";a26="";a27="";a28="";a29="";a30="";a31="";a32="";a33="";a34=""
-a32="";a36="";a37=""
+a32="";a36="";a37="";a38="";a39=""
 if lang=="en":
     a1="Installed apks:"
     a2="Android Toolbox 『ny4rlk0』 |☾☆|"
@@ -47,6 +47,8 @@ if lang=="en":
     a35="Wifi Reverse Shell:"
     a36="Sideload Firmware (.zip)"
     a37="Firmware (.zip)"
+    a38="Flash: Custom Partition"
+    a39="Custom Partition Name:"
 if lang=="tr":
     a1="Cihazda yüklü uygulamalar:"
     a2="Android Araç Kutusu 『ny4rlk0』 |☾☆|"
@@ -85,6 +87,8 @@ if lang=="tr":
     a35="Wifi Komut Satırı:"
     a36="Sideload Firmware (.zip)"
     a37="Firmware (.zip)"
+    a38="Flash: Custom Partition"
+    a39="Custom Partition Adı:"
 #End Translation Variables
 installed_apk_list=[]
 apk_combobox_list=[]
@@ -108,8 +112,13 @@ def scan_apks(path):
                 #print(os.path.join(file))
                 #print(file)
 def reverse_shell():
+    global device_mode
     adb_path=os.getcwd()+"\\"+'adb.exe'
-    cmd=adb_path+' '+ReverseShellBox.get()
+    fastboot_path=os.getcwd()+"\\"+'fastboot.exe'
+    if device_mode=="adb":
+        cmd=adb_path+' '+ReverseShellBox.get()
+    elif device_mode=="fastboot":
+        cmd=fastboot_path+' '+ReverseShellBox.get()
     print(cmd)
     try:
         out=os.system(cmd)
@@ -401,7 +410,7 @@ def flash_system_fastboot():
                 (nya_x, x_err) = nya_x.communicate()
 def flash_userdata_fastboot():
     if device_mode=="fastboot":
-        file = filedialog.askopenfile(mode='r', filetypes=[("data.img", '*.img')])
+        file = filedialog.askopenfile(mode='r', filetypes=[("userdata.img", '*.img')])
         #print(type(file))
         if file is not None:
             if ".img" in file.name:
@@ -438,6 +447,15 @@ def sideload_firmware():
         if file is not None:
             if ".zip" in file.name or ".ZIP" in file.name:
                 nya_x=sp.Popen(['adb','sideload',f'{file.name}'],stdout=sp.PIPE,shell=True)
+                (nya_x, x_err) = nya_x.communicate()
+def flash_custom_partition_fastboot():
+    if device_mode=="fastboot":
+        partition_name=PartitionFlash.get()
+        file = filedialog.askopenfile(mode='r', filetypes=[("*.img", '*.img')])
+        #print(type(file))
+        if file is not None:
+            if ".img" in file.name:
+                nya_x=sp.Popen(['fastboot','flash',f'{partition_name}',f'{file.name}'],stdout=sp.PIPE,shell=True)
                 (nya_x, x_err) = nya_x.communicate()
 #User Interface Settings
 
@@ -518,40 +536,48 @@ FlashZipFastBoot.grid(row=16,column=0,sticky=W)
 #FlashKernelFastBoot
 FlashKernelFastBoot=Button(w,text=a27,width=24,command=boot_kernel_fastboot)
 FlashKernelFastBoot.grid(row=16,column=1,sticky=W)
+#FastbootCustomPartitionFlashLabel
+ayrac=Label (w, text=a39,font="none 12 bold");ayrac.grid(row=17,column=0,sticky=W)
+#FastbootCustomPartitionFlashBox
+PartitionFlash=Entry(w,textvariable='',width=40);PartitionFlash.grid(row=17,column=1,sticky=W)
+#FastbootCustomPartitionFlash
+FastbootCustomPartitionFlash=Button(w,text=a38,width=24,command=flash_custom_partition_fastboot)
+FastbootCustomPartitionFlash.grid(row=18,column=1,sticky=W)
 #MenuAyracı
-ayrac=Label (w, text="FAST BOOT / ADB",font="none 12 bold");ayrac.grid(row=17,column=0,sticky=W)
+ayrac=Label (w, text="FAST BOOT / ADB",font="none 12 bold");ayrac.grid(row=19,column=0,sticky=W)
 #Wipe_Device
 lock_Dev=Button(w,text=a21,width=24,command=wipe_device)
-lock_Dev.grid(row=18,column=0,sticky=W)
+lock_Dev.grid(row=20,column=0,sticky=W)
 #MenuAyracı
-ayrac=Label (w, text="ADB WiFi",font="none 12 bold");ayrac.grid(row=19,column=0,sticky=W)
+ayrac=Label (w, text="ADB WiFi",font="none 12 bold");ayrac.grid(row=21,column=0,sticky=W)
 #WifiLabel
-ayrac=Label (w, text=a28,font="none 12 bold");ayrac.grid(row=20,column=0,sticky=W)
+ayrac=Label (w, text=a28,font="none 12 bold");ayrac.grid(row=22,column=0,sticky=W)
 #WifiBox
-wifibox=Entry(w,textvariable="",width=40);wifibox.grid(row=20,column=1,sticky=W)
+wifibox=Entry(w,textvariable="",width=40);wifibox.grid(row=22,column=1,sticky=W)
 #WifiOverADB #Make sure usb is connected at pairing everytime device reboots!
 WifiOverAdb=Button(w,text=a29,width=24,command=connect_adb_overwifi)
-WifiOverAdb.grid(row=21,column=0,sticky=W)
+WifiOverAdb.grid(row=23,column=0,sticky=W)
 #WifiOverADB #Make sure usb is connected at pairing everytime device reboots!
 WifiOverAdb2=Button(w,text=a30,width=24,command=disconnect_adb_overwifi)
-WifiOverAdb2.grid(row=21,column=1,sticky=W)
+WifiOverAdb2.grid(row=23,column=1,sticky=W)
 #ReverseShellLabel
-ayrac=Label (w, text=a35,font="none 12 bold");ayrac.grid(row=22,column=0,sticky=W)
+ayrac=Label (w, text=a35,font="none 12 bold");ayrac.grid(row=24,column=0,sticky=W)
 #ReverseShellBox
-ReverseShellBox=Entry(w,textvariable='',width=80);ReverseShellBox.grid(row=22,column=1,sticky=W)
+ReverseShellBox=Entry(w,textvariable='',width=80);ReverseShellBox.grid(row=24,column=1,sticky=W)
 #ReverseShellCommandSendButton
-ReverseShellCommandSendButton=Button(w,text='>',width=24,command=reverse_shell)
-ReverseShellCommandSendButton.grid(row=23,column=1,sticky=W)
+ReverseShellCommandSendButton=Button(w,text='>',width=25,command=reverse_shell)
+ReverseShellCommandSendButton.grid(row=25,column=1,sticky=W)
+
 #Warning
-ayrac=Label (w, text=a31,font="none 10");ayrac.grid(row=24,column=1,sticky=W)
+ayrac=Label (w, text=a31,font="none 10");ayrac.grid(row=26,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text=a32,font="none 10");ayrac.grid(row=25,column=1,sticky=W)
+ayrac=Label (w, text=a32,font="none 10");ayrac.grid(row=27,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text=a33,font="none 10");ayrac.grid(row=26,column=1,sticky=W)
+ayrac=Label (w, text=a33,font="none 10");ayrac.grid(row=28,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text=a34,font="none 10");ayrac.grid(row=27,column=1,sticky=W)
+ayrac=Label (w, text=a34,font="none 10");ayrac.grid(row=29,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text="Written by github.com/ny4rlk0 with『❤』",font="none 16");ayrac.grid(row=28,column=1,sticky=W)
+ayrac=Label (w, text="Written by github.com/ny4rlk0 with『❤』",font="none 16");ayrac.grid(row=30,column=1,sticky=W)
 #Constantly_chk_for_device_connection_in_side_proccess
 chk_dev = core(target=chk_device_connection)
 chk_dev.daemon=True
