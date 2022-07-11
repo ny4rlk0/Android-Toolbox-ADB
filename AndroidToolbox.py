@@ -4,14 +4,14 @@ import time;from tkinter import *;from tkinter import Text;from tkinter import f
 nya=0
 rlko=0
 #Translation Variables
-lang="en" # en, tr Change UI language with this variable
+lang="tr" # en, tr Change UI language with this variable
 a1="";a2="";a3="";a4="";a5="";a6="";a7="";a8="";a9="";a10=""
 a11="";a12="";a13="";a14="";a15="";a16="";a17="";a18="";a19="";a20="";a21=""
 a22="";a23="";a24="";a25="";a26="";a27="";a28="";a29="";a30="";a31="";a32="";a33="";a34=""
 a32="";a36="";a37="";a38="";a39=""
 if lang=="en":
     a1="Installed apks:"
-    a2="Android Toolbox 『ny4rlk0』 |☾☆|"
+    a2="v2.2 Android Toolbox 『ny4rlk0』 |☾☆|"
     a3="Backup Apk"
     a4="Connected device:"
     a5="No device connected or ADB Driver is not installed."
@@ -49,9 +49,11 @@ if lang=="en":
     a37="Firmware (.zip)"
     a38="Flash: Custom Partition"
     a39="Custom Partition Name:"
+    a40="Fastboot: Fastboot"
+    a41="Fastboot: Recovery"
 if lang=="tr":
-    a1="Cihazda yüklü uygulamalar:"
-    a2="Android Araç Kutusu 『ny4rlk0』 |☾☆|"
+    a1="Cihazdaki uygulamalar:"
+    a2="v2.2 Android Araç Kutusu 『ny4rlk0』 |☾☆|"
     a3="Apk Yedekle"
     a4="Bağlı cihaz:"
     a5="Bir cihaz bağlı değil ya da Cihazınızın ADB Sürücüsü yüklü değil."
@@ -82,13 +84,15 @@ if lang=="tr":
     a30="Bağlantıyı Kes"
     a31="Wifi ve USBye aynı anda bağlanmayın! USB kablo ile bağlandığınız zaman ADB Wifi sekmesinde,"
     a32="bağlantıyı kes butonuna basın. Daha sonra tekrar Wifi ile bağlanmak isterseniz kabloyu bağlıyken,"
-    a33="ADB Wifi sekmesindeki bağlan butonuna basın. Cihazı her yeniden başlattığınızda kablo ile bağlayıp"
-    a34="ADB Wifi sekmesinde bağlan butonuna basmanız gerekmektedir eğer wifi üzerinden bağlanmak istiyorsanız."
+    a33="ADB Wifi sekmesindeki bağlan butonuna basın. Cihazı yeniden başlattığınızda kablo ile bağlayıp"
+    a34="Bağlan butonuna basmanız gerekmektedir eğer wifi üzerinden bağlanmak istiyorsanız."
     a35="Wifi Komut Satırı:"
     a36="Sideload Firmware (.zip)"
     a37="Firmware (.zip)"
     a38="Flash: Custom Partition"
     a39="Custom Partition Adı:"
+    a40="Fastboot: Yeniden B Fastboot"
+    a41="Fastboot: Yeniden B Recovery"
 #End Translation Variables
 installed_apk_list=[]
 apk_combobox_list=[]
@@ -101,9 +105,6 @@ sq="'" #{sq}
 dq='"'#{dq}
 temp_dir="/data/local/tmp/" #inside phone or android device
 w=Tk();w.title(a2)#;w.configure(background='black')
-apk_label1=Label (w, text=a4,font="none 12 bold");apk_label1.grid(row=1,column=0,sticky=W)
-apk_label2=Label (w, text="",font="none 12 bold");apk_label2.grid(row=1,column=1,sticky=W)
-apk_label=Label (w, text=a1,font="none 12 bold");apk_label.grid(row=2,column=0,sticky=W)
 def scan_apks(path):
     for root, dirs, files in os.walk(path):
         for file in files:
@@ -337,8 +338,22 @@ def reboot_system_fastboot():
         (nya_x, x_err) = nya_x.communicate()
 def reboot_recovery_fastboot():
     if device_mode=="fastboot":
-        nya_x=sp.Popen(['fastboot','reboot','recovery'],stdout=sp.PIPE,shell=True)
+        nya_x=sp.Popen(['fastboot','reboot-recovery'],stdout=sp.PIPE,shell=True)
         (nya_x, x_err) = nya_x.communicate()
+
+
+
+def reboot_bootloader_fastboot():#EKLE
+    if device_mode=="fastboot":
+        nya_x=sp.Popen(['fastboot','reboot-bootloader'],stdout=sp.PIPE,shell=True)
+        (nya_x, x_err) = nya_x.communicate()
+def reboot_fastboot_fastboot():#EKLE
+    if device_mode=="fastboot":
+        nya_x=sp.Popen(['fastboot','reboot-fastboot'],stdout=sp.PIPE,shell=True)
+        (nya_x, x_err) = nya_x.communicate()
+
+
+
 def unlock_dev_fastboot():
     if device_mode=="fastboot":
         nya_x=sp.Popen(['fastboot','oem','unlock'],stdout=sp.PIPE,shell=True)
@@ -375,7 +390,7 @@ def wipe_device(): #Not tested since i dont have any device i can wipe!
         (nya_x6, x_err6) = nya_x6.communicate()
         nya_x7=sp.Popen(['fastboot','erase','system','-w'],stdout=sp.PIPE,shell=True)
         (nya_x7, x_err7) = nya_x7.communicate()
-        nya_x8=sp.Popen(['fastboot','format:ext4','userdata'],stdout=sp.PIPE,shell=True)
+        nya_x8=sp.Popen(['fastboot','format','userdata'],stdout=sp.PIPE,shell=True)
         (nya_x8, x_err8) = nya_x8.communicate()       
     if device_mode=="adb":
         nya_x=sp.Popen(['adb','shell','recovery','-wipe_data'],stdout=sp.PIPE,shell=True)
@@ -459,9 +474,11 @@ def flash_custom_partition_fastboot():
                 nya_x=sp.Popen(['fastboot','flash',f'{partition_name}',f'{file.name}'],stdout=sp.PIPE,shell=True)
                 (nya_x, x_err) = nya_x.communicate()
 #User Interface Settings
-
+apk_label1=Label (w, text=a4,font="none 12 bold");apk_label1.grid(row=1,column=0,sticky=W)
+apk_label2=Label (w, text="",font="none 12 bold");apk_label2.grid(row=1,column=1,sticky=W)
+apk_label=Label (w, text=a1,font="none 10");apk_label.grid(row=2,column=0,sticky=W)
 #Combo_Box_Apk_Select_List    
-live_apk_comboboxlist=Combobox(w,width=100,values=apk_combobox_list, state="readonly")# state="readonly"
+live_apk_comboboxlist=Combobox(w,width=63,values=apk_combobox_list, state="readonly")# state="readonly"
 live_apk_comboboxlist.grid(row=2,column=1)
 #BackupButton
 backupButton=Button(w,text=a3,width=24,command=backup_apk)
@@ -509,6 +526,12 @@ unlock_Dev.grid(row=11,column=0,sticky=W)
 #RebootRecovery_FastBoot
 RebootRecoveryFastBoot=Button(w,text=a17,width=24,command=reboot_recovery_fastboot)
 RebootRecoveryFastBoot.grid(row=11,column=1,sticky=W)
+#RebootFastboot_FastBoot
+RebootFastboot_FastBoot=Button(w,text=a40,width=26,command=reboot_fastboot_fastboot)
+RebootFastboot_FastBoot.grid(row=11,column=2,sticky=W)
+#RebootRecovery_FastBoot
+RebootRecovery_FastBoot=Button(w,text=a41,width=26,command=reboot_recovery_fastboot)
+RebootRecovery_FastBoot.grid(row=12,column=2,sticky=W)
 #RebootSystem_FastBoot
 RebootSystemFastBoot=Button(w,text=a18,width=24,command=reboot_system_fastboot)
 RebootSystemFastBoot.grid(row=12,column=0,sticky=W)
@@ -538,7 +561,7 @@ FlashZipFastBoot.grid(row=16,column=0,sticky=W)
 FlashKernelFastBoot=Button(w,text=a27,width=24,command=boot_kernel_fastboot)
 FlashKernelFastBoot.grid(row=16,column=1,sticky=W)
 #FastbootCustomPartitionFlashLabel
-ayrac=Label (w, text=a39,font="none 12 bold");ayrac.grid(row=17,column=0,sticky=W)
+ayrac=Label (w, text=a39,font="none 10");ayrac.grid(row=17,column=0,sticky=W)
 #FastbootCustomPartitionFlashBox
 PartitionFlash=Entry(w,textvariable='',width=40);PartitionFlash.grid(row=17,column=1,sticky=W)
 #FastbootCustomPartitionFlash
@@ -552,7 +575,7 @@ lock_Dev.grid(row=20,column=0,sticky=W)
 #MenuAyracı
 ayrac=Label (w, text="ADB WiFi",font="none 12 bold");ayrac.grid(row=21,column=0,sticky=W)
 #WifiLabel
-ayrac=Label (w, text=a28,font="none 12 bold");ayrac.grid(row=22,column=0,sticky=W)
+ayrac=Label (w, text=a28,font="none 10");ayrac.grid(row=22,column=0,sticky=W)
 #WifiBox
 wifibox=Entry(w,textvariable="",width=40);wifibox.grid(row=22,column=1,sticky=W)
 #WifiOverADB #Make sure usb is connected at pairing everytime device reboots!
@@ -562,23 +585,23 @@ WifiOverAdb.grid(row=23,column=0,sticky=W)
 WifiOverAdb2=Button(w,text=a30,width=24,command=disconnect_adb_overwifi)
 WifiOverAdb2.grid(row=23,column=1,sticky=W)
 #ReverseShellLabel
-ayrac=Label (w, text=a35,font="none 12 bold");ayrac.grid(row=24,column=0,sticky=W)
+ayrac=Label (w, text=a35,font="none 10");ayrac.grid(row=24,column=0,sticky=W)
 #ReverseShellBox
-ReverseShellBox=Entry(w,textvariable='',width=80);ReverseShellBox.grid(row=24,column=1,sticky=W)
+ReverseShellBox=Entry(w,textvariable='',width=70);ReverseShellBox.grid(row=24,column=1,sticky=W)
 #ReverseShellCommandSendButton
 ReverseShellCommandSendButton=Button(w,text='>',width=25,command=reverse_shell)
 ReverseShellCommandSendButton.grid(row=25,column=1,sticky=W)
 
 #Warning
-ayrac=Label (w, text=a31,font="none 10");ayrac.grid(row=26,column=1,sticky=W)
+ayrac=Label (w, text=a31,font="none 8");ayrac.grid(row=26,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text=a32,font="none 10");ayrac.grid(row=27,column=1,sticky=W)
+ayrac=Label (w, text=a32,font="none 8");ayrac.grid(row=27,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text=a33,font="none 10");ayrac.grid(row=28,column=1,sticky=W)
+ayrac=Label (w, text=a33,font="none 8");ayrac.grid(row=28,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text=a34,font="none 10");ayrac.grid(row=29,column=1,sticky=W)
+ayrac=Label (w, text=a34,font="none 8");ayrac.grid(row=29,column=1,sticky=W)
 #Warning
-ayrac=Label (w, text="Written by github.com/ny4rlk0 with『❤』",font="none 16");ayrac.grid(row=30,column=1,sticky=W)
+ayrac=Label (w, text="Written by github.com/ny4rlk0 with『❤』",font="none 10");ayrac.grid(row=30,column=1,sticky=W)
 #Constantly_chk_for_device_connection_in_side_proccess
 chk_dev = core(target=chk_device_connection)
 chk_dev.daemon=True
