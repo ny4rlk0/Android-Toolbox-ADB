@@ -11,6 +11,7 @@
 <br>* Not:
 <br>ADB / FASTBOOT sürücülerinizi kurmayı unutmayınız...
 <br>Programı her güncellediğimde ss'yi değiştirmek uğraştırıcı olmaya başladığı için ekran görüntüleri gerçek programdan farklı olabilir.
+<br>Bu programın işlevlerinin çoğu ADB'in açık olmasını ve bir kısmı Önyükleyici (Bootloader) kilidinin açık olmasını gerektirir.
 
 <br>EN
 ---------------
