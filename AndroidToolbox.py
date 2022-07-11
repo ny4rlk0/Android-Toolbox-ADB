@@ -4,7 +4,7 @@ import time;from tkinter import *;from tkinter import Text;from tkinter import f
 nya=0
 rlko=0
 #Translation Variables
-lang="tr" # en, tr Change UI language with this variable
+lang="en" # en, tr Change UI language with this variable
 a1="";a2="";a3="";a4="";a5="";a6="";a7="";a8="";a9="";a10=""
 a11="";a12="";a13="";a14="";a15="";a16="";a17="";a18="";a19="";a20="";a21=""
 a22="";a23="";a24="";a25="";a26="";a27="";a28="";a29="";a30="";a31="";a32="";a33="";a34=""
@@ -119,13 +119,14 @@ def reverse_shell():
         cmd=adb_path+' '+ReverseShellBox.get()
     elif device_mode=="fastboot":
         cmd=fastboot_path+' '+ReverseShellBox.get()
-    print(cmd)
-    try:
-        out=os.system(cmd)
-        #out=sp.Popen([cmd],stdout=sp.PIPE,shell=True)
-        #(out, err) = out.communicate()
-        print("reverse_shell_log"+str(out))
-    except Exception as e:print("reverse_shell_error_log:"+e)
+    if device_mode=="adb" or device_mode=="fastboot":
+        try:
+            print(cmd)
+            out=os.system(cmd)
+            #out=sp.Popen([cmd],stdout=sp.PIPE,shell=True)
+            #(out, err) = out.communicate()
+            print("reverse_shell_log"+str(out))
+        except Exception as e:print("reverse_shell_error_log:"+e)
 def chk_device_connection():
     while True:
         global connected_device, last_device,device_mode,adb_ip
