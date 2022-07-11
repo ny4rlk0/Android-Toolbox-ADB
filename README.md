@@ -4,6 +4,7 @@ Hepsi bir arada android alet çantası.
 <br>Wifi Reverse Shell works as 2 seperate command line.
 <br>If your device in fastboot mode it will use fastboot.exe
 <br>If your device in ADB debugging mode it will use adb.exe
+<br>You can send commands from USB to device, from Wifi Reverse Shell too.
 <br>* Note:
 <br>Don't forget to install your ADB / FASTBOOT drivers...
  <br>* Screen Shots:
