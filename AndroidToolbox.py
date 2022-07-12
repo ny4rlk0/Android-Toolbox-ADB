@@ -1,4 +1,4 @@
-import time;from tkinter import *;from tkinter import Text;from tkinter import filedialog;from tkinter.ttk import *;from threading import Thread as core;import os;import subprocess as sp;import sys
+import datetime;import time;from tkinter import *;from tkinter import messagebox;from tkinter import Text;from tkinter import filedialog;from tkinter.ttk import *;from threading import Thread as core;import os;import subprocess as sp;import sys
 #github.com/ny4rlk0 && nyarlko.com
 #
 nya=0
@@ -8,10 +8,11 @@ lang="en" # en, tr Change UI language with this variable
 a1="";a2="";a3="";a4="";a5="";a6="";a7="";a8="";a9="";a10=""
 a11="";a12="";a13="";a14="";a15="";a16="";a17="";a18="";a19="";a20="";a21=""
 a22="";a23="";a24="";a25="";a26="";a27="";a28="";a29="";a30="";a31="";a32="";a33="";a34=""
-a35="";a36="";a37="";a38="";a39="";a40="";a41="";a42="";a43="";a44="";a45=""
+a35="";a36="";a37="";a38="";a39="";a40="";a41="";a42="";a43="";a44="";a45="";a46=""
+once_chk=True
 if lang=="en":
     a1="Installed apks:"
-    a2="|☾☆| v2.3 Android Toolbox 『ny4rlk0』"
+    a2="|☾☆| v2.4 Android Toolbox github.com/ny4rlk0 with 『❤』"
     a3="Backup Apk"
     a4="Connected device:"
     a5="No device connected or ADB/Fastboot Driver is not installed."
@@ -53,9 +54,12 @@ if lang=="en":
     a41="Fastboot: Bootloader"
     a42="Bootloader Lock / Unlock"
     a43="Reboot"
+    a44="Flash: Batch File"
+    a45="Reboot Download"
+    a46="Info"
 if lang=="tr":
     a1="Cihazdaki uygulamalar:"
-    a2="|☾☆| v2.3 Android Araç Kutusu 『ny4rlk0』"
+    a2="|☾☆| v2.4 Android Araç Kutusu github.com/ny4rlk0 with 『❤』"
     a3="Apk Yedekle"
     a4="Bağlı cihaz:"
     a5="Bir cihaz bağlı değil ya da Cihazınızın ADB/Fastboot Sürücüsü yüklü değil."
@@ -69,9 +73,9 @@ if lang=="tr":
     a13="Klasör Seç"
     a14="Apk Kaldır"
     a15="Apk Yükle (Temp Metodu)"
-    a16="Yeniden Başlat FastBoot"
-    a17="Yeniden Başlat Recovery"
-    a18="Yeniden Başlat System"
+    a16="Yeniden Başlat: FastBoot"
+    a17="Yeniden Başlat: Recovery"
+    a18="Yeniden Başlat: System"
     a19="Kilidi aç: OEM/Flash"
     a20="Kilitle: OEM/Flash"
     a21="Aygıtı Sil <!>"
@@ -97,6 +101,9 @@ if lang=="tr":
     a41="Fastboot: Yeniden Bootloader"
     a42="Bootloader Kilitle / Kilidi Aç"
     a43="Yeniden Başlat"
+    a44="Flash: Bat Dosyası"
+    a45="Yeniden Başlat: Download"
+    a46="Bilgi"
 #End Translation Variables
 installed_apk_list=[]
 apk_combobox_list=[]
@@ -109,6 +116,15 @@ sq="'" #{sq}
 dq='"'#{dq}
 temp_dir="/data/local/tmp/" #inside phone or android device
 w=Tk();w.title(a2)#;w.configure(background='black')
+gui_dev_stat=""
+#messagebox.showinfo(title=a46,message=a31+a32+a33+a34)
+def label_communication():
+    global gui_dev_stat
+    while True:
+        if gui_dev_stat!=apk_label2.cget("text"):
+            apk_label2.config(text=gui_dev_stat)
+            gui_dev_stat=apk_label2.cget("text")
+        time.sleep(1)
 def scan_apks(path):
     for root, dirs, files in os.walk(path):
         for file in files:
@@ -134,7 +150,7 @@ def reverse_shell():
         except Exception as e:print("reverse_shell_error_log:"+e)
 def chk_device_connection():
     while True:
-        global connected_device, last_device,device_mode,adb_ip
+        global connected_device, last_device,device_mode,adb_ip,gui_dev_stat
         #print("Checking the device connection...")
         out=sp.Popen(['adb','devices'],stdout=sp.PIPE,shell=True)
         (out, err) = out.communicate()
@@ -154,6 +170,9 @@ def chk_device_connection():
         elif "\\toffline" in devices: #Dont know what to do here!
             try:devices=devices.replace("\\toffline"," offline")
             except:pass
+        elif "\\tauthorizing" in devices: #Dont know what to do here!
+            try:devices=devices.replace("\\tauthorizing"," authorizing")
+            except:pass
         devices=devices.split("\\r\\n")
         devices=list(filter(None, devices))
         connected_device=devices
@@ -166,7 +185,8 @@ def chk_device_connection():
         connected_device=devices
         #print(devices)
         if how_many_devices>=2:
-            apk_label2.config(text=a6)
+            #apk_label2.config(text=a6)
+            gui_dev_stat=a6
             connected_device="none" #Multiple Dev Connected We do not support that for now!
             device_mode="not_connected"
         elif how_many_devices==0: # No ADB connection found. Lets check for fastboot?
@@ -180,14 +200,31 @@ def chk_device_connection():
                 o=o.replace("'","")
                 o=o.replace("\\t"," ")
                 o=o.replace("\\r\\n"," ")
-                apk_label2.config(text=o)
+                o=o.split(" ")
+                devices=str(o[0])
+                #apk_label2.config(text=o)
+                #print(str(o))
+                gui_dev_stat=str(o[0]+' '+o[1])
+                connected_device=str(o[0])
+                now = datetime.datetime.now()
+                #print("Fast: "+connected_device)
+                #print(last_device)
+                if connected_device != last_device:
+                    print('----------------------------------------------------')
+                    print('TIME: '+str(now))
+                    print('DEV_FOUND_NAME: '+str(devices))
+                    print('INTERFACE: '+str(device_mode))
+                    print('----------------------------------------------------')
             else:
-                apk_label2.config(text=a5)
+                #apk_label2.config(text=a5)
+                gui_dev_stat=a5
                 device_mode="not_connected"
                 last_device==a5
-            connected_device="none" #No ADB Installable Dev Connected or not in ADB mode
+            #connected_device="none" #No ADB Installable Dev Connected or not in ADB mode
         else:
-            apk_label2.config(text=str(devices)+" Android Debug Bridge") #Single Dev Connected
+            temp=str(devices)+" Android Debug Bridge"
+            #apk_label2.config(text=temp) #Single Dev Connected
+            gui_dev_stat=temp #Update Device Status UI
             device_mode="adb"
             if connected_device != last_device:
                 #Just to get ip address of device over ADB
@@ -205,7 +242,9 @@ def chk_device_connection():
                             ipaddr=o[ip_index]
                             ipaddr=ipaddr.replace("/24","")
                             break
+                    now = datetime.datetime.now()
                     print('----------------------------------------------------')
+                    print('TIME: '+str(now))
                     print('DEV_FOUND_NAME: '+str(devices))
                     print('DEV_IP: '+str(ipaddr))
                     print('INTERFACE: '+str(device_mode))
@@ -218,10 +257,13 @@ def chk_device_connection():
                 #IP found and assigned to ip text box in program
         if connected_device != last_device:
             last_device=connected_device
-            fetch_installed_apks()
-        time.sleep(2)
+            #print("Last: "+connected_device)
+            #print(last_device)
+            w.after(1000,fetch_installed_apks)
+            #fetch_installed_apks()
+        time.sleep(1)
 def fetch_installed_apks():
-    global installed_apk_list,apk_combobox_list,live_apk_comboboxlist
+    global installed_apk_list,apk_combobox_list,live_apk_comboboxlist,once_chk
     apk_combobox_list=[]
     installed_apk_list=[]
     live_apk_comboboxlist.set("")
@@ -359,6 +401,10 @@ def reboot_system():
     if device_mode=="adb":
         nya_x=sp.Popen(['adb','reboot','system'],stdout=sp.PIPE,shell=True)
         (nya_x, x_err) = nya_x.communicate()
+def reboot_download():
+    if device_mode=="adb":
+        nya_x=sp.Popen(['adb','reboot','download'],stdout=sp.PIPE,shell=True)
+        (nya_x, x_err) = nya_x.communicate()
 #FastBoot
 def reboot_system_fastboot():
     if device_mode=="fastboot":
@@ -368,6 +414,7 @@ def reboot_recovery_fastboot():
     if device_mode=="fastboot":
         nya_x=sp.Popen(['fastboot','reboot-recovery'],stdout=sp.PIPE,shell=True)
         (nya_x, x_err) = nya_x.communicate()
+
 #def reboot_recovery_fastboot_2():
 #    if device_mode=="fastboot":
 #        nya_x=sp.Popen(['fastboot','reboot','recovery'],stdout=sp.PIPE,shell=True)
@@ -499,19 +546,25 @@ def flash_custom_partition_fastboot():
             nya_x=sp.Popen(['fastboot','flash',f'{partition_name}',f'{file.name}'],stdout=sp.PIPE,shell=True)
             (nya_x, x_err) = nya_x.communicate()
 def flash_batch_file(): #Not Implemented Yet (Work In Progress <!>)
-    if device_mode=="fastboot":
+    if device_mode=="adb":
+        reboot_bootloader()
+    elif device_mode=="fastboot":
         file = filedialog.askopenfile(mode='r', filetypes=[("Batch Flash .bat, .cmd", ['*.bat','*.cmd'])])
         if file is not None:
             if ".bat" in file.name or ".cmd" in file.name:
                 nya_x=sp.Popen(['start','/b',f'{dq}NYA:Flash{dq}',f'{dq}{file.name}{dq}'],stdout=sp.PIPE,shell=True)
                 (nya_x, x_err) = nya_x.communicate()
                 print(str(nya_x))
+def show_info():
+    #Throw infobox to user at start
+    try:messagebox.showinfo(title=a46,message=a31+a32+a33+a34)
+    except Exception as e:print(e)
 #User Interface Settings
 apk_label1=Label (w, text=a4,font="none 12 bold");apk_label1.grid(row=1,column=0,sticky=W)
 apk_label2=Label (w, text="",font="none 12 bold");apk_label2.grid(row=1,column=1,sticky=W)
 apk_label=Label (w, text=a1,font="none 10");apk_label.grid(row=2,column=0,sticky=W)
 #Combo_Box_Apk_Select_List    
-live_apk_comboboxlist=Combobox(w,width=63,values=apk_combobox_list, state="readonly")# state="readonly"
+live_apk_comboboxlist=Combobox(w,width=100,values=apk_combobox_list, state="readonly")# state="readonly"
 live_apk_comboboxlist.grid(row=2,column=1,sticky=W)
 #BackupButton
 backupButton=Button(w,text=a3,width=24,command=backup_apk)
@@ -550,111 +603,116 @@ RebootSystem.grid(row=9,column=0,sticky=W)
 #SideloadFirmware
 SideloadFirmware=Button(w,text=a36,width=24,command=sideload_firmware)
 SideloadFirmware.grid(row=9,column=1,sticky=W)
+#RebootDownload
+RebootDownload=Button(w,text=a45,width=24,command=reboot_download)
+RebootDownload.grid(row=10,column=0,sticky=W)
 
 #MenuAyracı
-ayrac=Label (w, text="FAST BOOT / "+a43,font="none 12 bold");ayrac.grid(row=10,column=0,sticky=W)
+ayrac=Label (w, text="FAST BOOT / "+a43,font="none 12 bold");ayrac.grid(row=11,column=0,sticky=W)
 
 #RebootRecovery_FastBoot reboot_recovery_fastboot_2
 RebootRecoveryFastBoot=Button(w,text=a17,width=24,command=reboot_recovery_fastboot)
-RebootRecoveryFastBoot.grid(row=11,column=0,sticky=W)
-
-#RebootRecovery2_FastBoot
-#RebootRecoveryFastBoot=Button(w,text=a17+' (2)',width=24,command=reboot_recovery_fastboot_2)
-#RebootRecoveryFastBoot.grid(row=11,column=3,sticky=W)
+RebootRecoveryFastBoot.grid(row=12,column=0,sticky=W)
 
 #RebootFastboot_FastBoot
 RebootFastboot_FastBoot=Button(w,text=a40,width=26,command=reboot_fastboot_fastboot)
-RebootFastboot_FastBoot.grid(row=11,column=1,sticky=W)
+RebootFastboot_FastBoot.grid(row=12,column=1,sticky=W)
 #RebootBootloader_FastBoot
 RebootBootloader_FastBoot=Button(w,text=a41,width=26,command=reboot_bootloader_fastboot)
-RebootBootloader_FastBoot.grid(row=12,column=0,sticky=W)
+RebootBootloader_FastBoot.grid(row=13,column=0,sticky=W)
 #RebootSystem_FastBoot
 RebootSystemFastBoot=Button(w,text=a18,width=24,command=reboot_system_fastboot)
-RebootSystemFastBoot.grid(row=12,column=1,sticky=W)
+RebootSystemFastBoot.grid(row=13,column=1,sticky=W)
 
 #MenuAyracı
-ayrac=Label (w, text="FAST BOOT / ",font="none 12 bold");ayrac.grid(row=13,column=0,sticky=W)
-ayrac=Label (w, text=a42,font="none 12 bold");ayrac.grid(row=13,column=1,sticky=W)
+ayrac=Label (w, text="FAST BOOT / ",font="none 12 bold");ayrac.grid(row=14,column=0,sticky=W)
+ayrac=Label (w, text=a42,font="none 12 bold");ayrac.grid(row=14,column=1,sticky=W)
 
 #Unlock_Dev_FastBoot
 unlock_Dev=Button(w,text=a19,width=24,command=unlock_dev_fastboot)
-unlock_Dev.grid(row=14,column=0,sticky=W)
+unlock_Dev.grid(row=15,column=0,sticky=W)
 #Lock_Dev
 lock_Dev=Button(w,text=a20,width=24,command=lock_dev_fastboot)
-lock_Dev.grid(row=14,column=1,sticky=W)
+lock_Dev.grid(row=15,column=1,sticky=W)
 
 #MenuAyracı
-ayrac=Label (w, text="FAST BOOT / Flash",font="none 12 bold");ayrac.grid(row=15,column=0,sticky=W)
+ayrac=Label (w, text="FAST BOOT / Flash",font="none 12 bold");ayrac.grid(row=16,column=0,sticky=W)
 
 #FlashBootFastBoot
 FlashBootFastBoot=Button(w,text=a22,width=24,command=flash_boot_fastboot)
-FlashBootFastBoot.grid(row=16,column=0,sticky=W)
+FlashBootFastBoot.grid(row=17,column=0,sticky=W)
 #FlashRecoveryFastBoot
 FlashRecoveryFastBoot=Button(w,text=a23,width=24,command=flash_recovery_fastboot)
-FlashRecoveryFastBoot.grid(row=16,column=1,sticky=W)
+FlashRecoveryFastBoot.grid(row=17,column=1,sticky=W)
 #FlashSystemFastBoot
 FlashSystemFastBoot=Button(w,text=a24,width=24,command=flash_system_fastboot)
-FlashSystemFastBoot.grid(row=17,column=0,sticky=W)
+FlashSystemFastBoot.grid(row=18,column=0,sticky=W)
 #FlashUserdataFastBoot
 FlashUserdataFastBoot=Button(w,text=a25,width=24,command=flash_userdata_fastboot)
-FlashUserdataFastBoot.grid(row=17,column=1,sticky=W)
+FlashUserdataFastBoot.grid(row=18,column=1,sticky=W)
 #FlashZipFastBoot
 FlashZipFastBoot=Button(w,text=a26,width=24,command=flash_zip_fastboot)
-FlashZipFastBoot.grid(row=18,column=0,sticky=W)
+FlashZipFastBoot.grid(row=19,column=0,sticky=W)
 #FlashKernelFastBoot
 FlashKernelFastBoot=Button(w,text=a27,width=24,command=boot_kernel_fastboot)
-FlashKernelFastBoot.grid(row=18,column=1,sticky=W)
+FlashKernelFastBoot.grid(row=19,column=1,sticky=W)
 #FastbootCustomPartitionFlashLabel
-ayrac=Label (w, text=a39,font="none 10");ayrac.grid(row=19,column=0,sticky=W)
+ayrac=Label (w, text=a39,font="none 10");ayrac.grid(row=20,column=0,sticky=W)
 #FastbootCustomPartitionFlashBox
-PartitionFlash=Entry(w,textvariable='',width=40);PartitionFlash.grid(row=19,column=1,sticky=W)
+PartitionFlash=Entry(w,textvariable='',width=40);PartitionFlash.grid(row=20,column=1,sticky=W)
 #FastbootCustomPartitionFlash
 FastbootCustomPartitionFlash=Button(w,text=a38,width=24,command=flash_custom_partition_fastboot)
-FastbootCustomPartitionFlash.grid(row=20,column=1,sticky=W)
+FastbootCustomPartitionFlash.grid(row=21,column=1,sticky=W)
+#Fastbootflash_batch_file
+Fastbootflash_batch_file=Button(w,text=a44,width=24,command=flash_batch_file)
+Fastbootflash_batch_file.grid(row=22,column=0,sticky=W)
 #MenuAyracı
-ayrac=Label (w, text="FAST BOOT / ADB",font="none 12 bold");ayrac.grid(row=21,column=0,sticky=W)
+ayrac=Label (w, text="FAST BOOT / ADB",font="none 12 bold");ayrac.grid(row=23,column=0,sticky=W)
 #Wipe_Device
 lock_Dev=Button(w,text=a21,width=24,command=wipe_device)
-lock_Dev.grid(row=22,column=0,sticky=W)
+lock_Dev.grid(row=24,column=0,sticky=W)
 #MenuAyracı
-ayrac=Label (w, text="ADB WiFi",font="none 12 bold");ayrac.grid(row=23,column=0,sticky=W)
+ayrac=Label (w, text="ADB WiFi",font="none 12 bold");ayrac.grid(row=25,column=0,sticky=W)
 #WifiLabel
-ayrac=Label (w, text=a28,font="none 10");ayrac.grid(row=24,column=0,sticky=W)
+ayrac=Label (w, text=a28,font="none 10");ayrac.grid(row=26,column=0,sticky=W)
 #WifiBox
-wifibox=Entry(w,textvariable="",width=40);wifibox.grid(row=24,column=1,sticky=W)
+wifibox=Entry(w,textvariable="",width=40);wifibox.grid(row=26,column=1,sticky=W)
 #WifiOverADB #Make sure usb is connected at pairing everytime device reboots!
 WifiOverAdb=Button(w,text=a29,width=24,command=connect_adb_overwifi)
-WifiOverAdb.grid(row=25,column=0,sticky=W)
+WifiOverAdb.grid(row=27,column=0,sticky=W)
 #WifiOverADB #Make sure usb is connected at pairing everytime device reboots!
 WifiOverAdb2=Button(w,text=a30,width=24,command=disconnect_adb_overwifi)
-WifiOverAdb2.grid(row=25,column=1,sticky=W)
+WifiOverAdb2.grid(row=27,column=1,sticky=W)
 #ReverseShellLabel
-ayrac=Label (w, text=a35,font="none 10");ayrac.grid(row=26,column=0,sticky=W)
+ayrac=Label (w, text=a35,font="none 10");ayrac.grid(row=28,column=0,sticky=W)
 #ReverseShellBox
-ReverseShellBox=Entry(w,textvariable='',width=70);ReverseShellBox.grid(row=26,column=1,sticky=W)
+ReverseShellBox=Entry(w,textvariable='',width=100);ReverseShellBox.grid(row=28,column=1,sticky=W)
 #ReverseShellCommandSendButton
 ReverseShellCommandSendButton=Button(w,text='>',width=25,command=reverse_shell)
-ReverseShellCommandSendButton.grid(row=27,column=1,sticky=W)
+ReverseShellCommandSendButton.grid(row=29,column=1,sticky=W)
 
 #Warning
-ayrac=Label (w, text=a31,font="none 8");ayrac.grid(row=28,column=1,sticky=W)
-#Warning
-ayrac=Label (w, text=a32,font="none 8");ayrac.grid(row=29,column=1,sticky=W)
-#Warning
-ayrac=Label (w, text=a33,font="none 8");ayrac.grid(row=30,column=1,sticky=W)
-#Warning
-ayrac=Label (w, text=a34,font="none 8");ayrac.grid(row=31,column=1,sticky=W)
-#Warning
-ayrac=Label (w, text="Written by github.com/ny4rlk0 with『❤』",font="none 10");ayrac.grid(row=32,column=1,sticky=W)
+#tb=Text(w,height="5",width="85",font="none 7")
+#tb.grid(row=30,column=1,sticky=W)
+#tb.insert('end',a31+a32+a33+a34)
+#tb.config(state="disabled")
+
 #Constantly_chk_for_device_connection_in_side_proccess
-chk_dev = core(target=chk_device_connection)
+chk_dev=core(target=chk_device_connection)
 chk_dev.daemon=True
 chk_dev.start()
+
+buffer=core(target=label_communication)
+buffer.daemon=True
+buffer.start()#Fixes issue between main loop and thread communication (UI Freeze Fixes, Fix 1)
 #Check_installed_apks_from_start
-fetch_installed_apks()
+#fetch_installed_apks()
 if nya!=0 or rlko!=0:
     sys.exit(0)
+
+w.after(2000,show_info)#Ahh F you! Main thread is not in loop my ass!! 
 #Start_Drawing_UI
 w.mainloop()
+
 #Exit_App_With_Success_Code
 sys.exit(0)
