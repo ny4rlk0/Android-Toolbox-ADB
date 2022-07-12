@@ -12,6 +12,7 @@
 <br>ADB / FASTBOOT sürücülerinizi kurmayı unutmayınız...
 <br>Programı her güncellediğimde ss'yi değiştirmek uğraştırıcı olmaya başladığı için ekran görüntüleri gerçek programdan farklı olabilir.
 <br>Bu programın işlevlerinin çoğu ADB'in açık olmasını ve bir kısmı Önyükleyici (Bootloader) kilidinin açık olmasını gerektirir.
+<br>Samsung telefonları Download Mode tek tuşla alabilirsiniz.
 
 <br>EN
 ---------------
@@ -22,6 +23,7 @@
 <br>You can send commands from USB to device, from Wifi Reverse Shell too.
 <br>* Note:
 <br>Don't forget to install your ADB / FASTBOOT drivers...
+<br>Bring samsung phones to download mode with single click. *New: *Waku~~Waku* 
 <br>Screenshots may differ from actual program since it started to pain in the ass to change ss everytime i update program. 
  <br>* Screen Shots:
 <p align="center">
