@@ -498,7 +498,14 @@ def flash_custom_partition_fastboot():
         if file is not None and partition_name!="":
             nya_x=sp.Popen(['fastboot','flash',f'{partition_name}',f'{file.name}'],stdout=sp.PIPE,shell=True)
             (nya_x, x_err) = nya_x.communicate()
-
+def flash_batch_file(): #Not Implemented Yet (Work In Progress <!>)
+    if device_mode=="fastboot":
+        file = filedialog.askopenfile(mode='r', filetypes=[("Batch Flash .bat, .cmd", ['*.bat','*.cmd'])])
+        if file is not None:
+            if ".bat" in file.name or ".cmd" in file.name:
+                nya_x=sp.Popen(['start','/b',f'{dq}NYA:Flash{dq}',f'{dq}{file.name}{dq}'],stdout=sp.PIPE,shell=True)
+                (nya_x, x_err) = nya_x.communicate()
+                print(str(nya_x))
 #User Interface Settings
 apk_label1=Label (w, text=a4,font="none 12 bold");apk_label1.grid(row=1,column=0,sticky=W)
 apk_label2=Label (w, text="",font="none 12 bold");apk_label2.grid(row=1,column=1,sticky=W)
