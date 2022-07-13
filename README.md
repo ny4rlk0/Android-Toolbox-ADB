@@ -1,4 +1,5 @@
 # Nyarlko-s-Android-Toolbox
+<a href="https://github.com/ny4rlk0/Android-Toolbox-ADB/releases/download/v2.5/Android_Toolbox@nyarlko_v2.5.zip">İndir / Download</a>
 <br>TR
 ---------------
 <br>Hepsi bir arada android alet çantası. 
