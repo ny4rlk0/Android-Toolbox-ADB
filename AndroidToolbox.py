@@ -1,4 +1,5 @@
-import datetime;import time;from tkinter import *;from tkinter import messagebox;from tkinter import Text;from tkinter import filedialog;from tkinter.ttk import *;from threading import Thread as core;import os;import subprocess as sp;import sys
+import datetime
+from fileinput import filename;import time;from tkinter import *;from tkinter import messagebox;from tkinter import Text;from tkinter import filedialog;from tkinter.ttk import *;from threading import Thread as core;import os;import subprocess as sp;import sys
 #github.com/ny4rlk0 && nyarlko.com
 #
 nya=0
@@ -13,7 +14,7 @@ a48=""
 once_chk=True
 if lang=="en":
     a1="Installed apks:"
-    a2="|☾☆| v2.5 Android Toolbox github.com/ny4rlk0 with 『❤』"
+    a2="|☾☆| v2.6 Android Toolbox github.com/ny4rlk0 with 『❤』"
     a3="Backup Apk"
     a4="Connected device:"
     a5="No device connected or ADB/Fastboot Driver is not installed."
@@ -62,7 +63,7 @@ if lang=="en":
     a48="Device Info"
 if lang=="tr":
     a1="Cihazdaki uygulamalar:"
-    a2="|☾☆| v2.5 Android Araç Kutusu github.com/ny4rlk0 with 『❤』"
+    a2="|☾☆| v2.6 Android Araç Kutusu github.com/ny4rlk0 with 『❤』"
     a3="Apk Yedekle"
     a4="Bağlı cihaz:"
     a5="Bir cihaz bağlı değil ya da Cihazınızın ADB/Fastboot Sürücüsü yüklü değil."
@@ -568,8 +569,10 @@ def flash_batch_file(): #Not Implemented Yet (Work In Progress Use With Caution 
         file = filedialog.askopenfile(mode='r', filetypes=[("Batch Flash .bat, .cmd", ['*.bat','*.cmd'])])
         if file is not None:
             if ".bat" in file.name or ".cmd" in file.name:
-                nya_x=sp.Popen(['start','/b',f'{dq}NYA:Flash{dq}',f'{dq}{file.name}{dq}'],stdout=sp.PIPE,shell=True)
-                (nya_x, x_err) = nya_x.communicate()
+                print(file.name)
+                #nya_x=sp.Popen(['start','/b',f'NYA_Flash',f'{dq}{file.name}{dq}'],stdout=sp.PIPE,shell=True)
+                #(nya_x, x_err) = nya_x.communicate()
+                os.system(f'start /b cmd | start "NYA:FLASH" "{file.name}"')
 def device_info():
     print("dev_mode: "+device_mode)
     if device_mode=="fastboot":
