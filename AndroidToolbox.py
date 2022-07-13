@@ -1,3 +1,4 @@
+from dataclasses import replace
 import datetime;import time;from tkinter import *;from tkinter import messagebox;from tkinter import Text;from tkinter import filedialog;from tkinter.ttk import *;from threading import Thread as core;import os;import subprocess as sp;import sys
 #github.com/ny4rlk0 && nyarlko.com
 #
@@ -8,11 +9,12 @@ lang="en" # en, tr Change UI language with this variable
 a1="";a2="";a3="";a4="";a5="";a6="";a7="";a8="";a9="";a10=""
 a11="";a12="";a13="";a14="";a15="";a16="";a17="";a18="";a19="";a20="";a21=""
 a22="";a23="";a24="";a25="";a26="";a27="";a28="";a29="";a30="";a31="";a32="";a33="";a34=""
-a35="";a36="";a37="";a38="";a39="";a40="";a41="";a42="";a43="";a44="";a45="";a46=""
+a35="";a36="";a37="";a38="";a39="";a40="";a41="";a42="";a43="";a44="";a45="";a46="";a47=""
+a48=""
 once_chk=True
 if lang=="en":
     a1="Installed apks:"
-    a2="|☾☆| v2.4 Android Toolbox github.com/ny4rlk0 with 『❤』"
+    a2="|☾☆| v2.5 Android Toolbox github.com/ny4rlk0 with 『❤』"
     a3="Backup Apk"
     a4="Connected device:"
     a5="No device connected or ADB/Fastboot Driver is not installed."
@@ -57,9 +59,11 @@ if lang=="en":
     a44="Flash: Batch File"
     a45="Reboot Download"
     a46="Info"
+    a47="Bootloader Info"
+    a48="Device Info"
 if lang=="tr":
     a1="Cihazdaki uygulamalar:"
-    a2="|☾☆| v2.4 Android Araç Kutusu github.com/ny4rlk0 with 『❤』"
+    a2="|☾☆| v2.5 Android Araç Kutusu github.com/ny4rlk0 with 『❤』"
     a3="Apk Yedekle"
     a4="Bağlı cihaz:"
     a5="Bir cihaz bağlı değil ya da Cihazınızın ADB/Fastboot Sürücüsü yüklü değil."
@@ -104,6 +108,8 @@ if lang=="tr":
     a44="Flash: Bat Dosyası"
     a45="Yeniden Başlat: Download"
     a46="Bilgi"
+    a47="Bootloader Bilgisi"
+    a48="Aygıt Bilgisi"
 #End Translation Variables
 installed_apk_list=[]
 apk_combobox_list=[]
@@ -114,10 +120,10 @@ device_mode=""#adb, fastboot, not_connected
 adb_ip=""
 sq="'" #{sq}
 dq='"'#{dq}
+ipaddr=""
 temp_dir="/data/local/tmp/" #inside phone or android device
 w=Tk();w.title(a2)#;w.configure(background='black')
 gui_dev_stat=""
-#messagebox.showinfo(title=a46,message=a31+a32+a33+a34)
 def label_communication():
     global gui_dev_stat
     while True:
@@ -150,7 +156,7 @@ def reverse_shell():
         except Exception as e:print("reverse_shell_error_log:"+e)
 def chk_device_connection():
     while True:
-        global connected_device, last_device,device_mode,adb_ip,gui_dev_stat
+        global connected_device, last_device,device_mode,adb_ip,gui_dev_stat,ipaddr
         #print("Checking the device connection...")
         out=sp.Popen(['adb','devices'],stdout=sp.PIPE,shell=True)
         (out, err) = out.communicate()
@@ -253,7 +259,7 @@ def chk_device_connection():
                     wifibox.delete(0,END)
                     wifibox.insert(0,adb_ip)
                     #print(o)
-                except:pass
+                except Exception as e:print(e)
                 #IP found and assigned to ip text box in program
         if connected_device != last_device:
             last_device=connected_device
@@ -393,18 +399,28 @@ def reboot_bootloader():
     if device_mode=="adb":
         nya_x=sp.Popen(['adb','reboot-bootloader'],stdout=sp.PIPE,shell=True)
         (nya_x, x_err) = nya_x.communicate()
+        nya_x2=sp.Popen(['adb','reboot','bootloader'],stdout=sp.PIPE,shell=True)
+        (nya_x2, x_err) = nya_x2.communicate()
 def reboot_recovery():
     if device_mode=="adb":
         nya_x=sp.Popen(['adb','reboot','recovery'],stdout=sp.PIPE,shell=True)
         (nya_x, x_err) = nya_x.communicate()
+        nya_x2=sp.Popen(['adb','reboot-recovery'],stdout=sp.PIPE,shell=True)
+        (nya_x2, x_err) = nya_x2.communicate()
 def reboot_system():
     if device_mode=="adb":
         nya_x=sp.Popen(['adb','reboot','system'],stdout=sp.PIPE,shell=True)
         (nya_x, x_err) = nya_x.communicate()
+        nya_x2=sp.Popen(['adb','reboot-system'],stdout=sp.PIPE,shell=True)
+        (nya_x2, x_err) = nya_x2.communicate()
+        nya_x3=sp.Popen(['adb','reboot'],stdout=sp.PIPE,shell=True)
+        (nya_x3, x_err) = nya_x3.communicate()        
 def reboot_download():
     if device_mode=="adb":
         nya_x=sp.Popen(['adb','reboot','download'],stdout=sp.PIPE,shell=True)
         (nya_x, x_err) = nya_x.communicate()
+        nya_x2=sp.Popen(['adb','reboot-download'],stdout=sp.PIPE,shell=True)
+        (nya_x2, x_err) = nya_x2.communicate()
 #FastBoot
 def reboot_system_fastboot():
     if device_mode=="fastboot":
@@ -414,11 +430,8 @@ def reboot_recovery_fastboot():
     if device_mode=="fastboot":
         nya_x=sp.Popen(['fastboot','reboot-recovery'],stdout=sp.PIPE,shell=True)
         (nya_x, x_err) = nya_x.communicate()
-
-#def reboot_recovery_fastboot_2():
-#    if device_mode=="fastboot":
-#        nya_x=sp.Popen(['fastboot','reboot','recovery'],stdout=sp.PIPE,shell=True)
-#        (nya_x, x_err) = nya_x.communicate()
+        nya_x=sp.Popen(['fastboot','reboot','recovery'],stdout=sp.PIPE,shell=True)
+        (nya_x, x_err) = nya_x.communicate()
 def reboot_bootloader_fastboot():
     if device_mode=="fastboot":
         nya_x=sp.Popen(['fastboot','reboot-bootloader'],stdout=sp.PIPE,shell=True)
@@ -437,6 +450,8 @@ def unlock_dev_fastboot():
         (nya_x3, x_err3) = nya_x3.communicate()
         nya_x4=sp.Popen(['fastboot','oem','unlock'],stdout=sp.PIPE,shell=True)
         (nya_x4, x_err4) = nya_x4.communicate()
+        nya_x5=sp.Popen(['fastboot','oem','unlock-go'],stdout=sp.PIPE,shell=True)#GM
+        (nya_x5, x_err) = nya_x5.communicate()
 def lock_dev_fastboot():
     if device_mode=="fastboot":
         nya_x=sp.Popen(['fastboot','oem','lock'],stdout=sp.PIPE,shell=True)
@@ -454,7 +469,7 @@ def wipe_device(): #Not tested since i dont have any device i can wipe!
         nya_x2=sp.Popen(['fastboot','format','data'],stdout=sp.PIPE,shell=True)
         (nya_x2, x_err2) = nya_x2.communicate()
         nya_x3=sp.Popen(['fastboot','flashall','-w'],stdout=sp.PIPE,shell=True)
-        (nya_x3, x3_err) = nya_x3.communicate()
+        (nya_x3, x_err3) = nya_x3.communicate()
         nya_x4=sp.Popen(['fastboot','erase','data'],stdout=sp.PIPE,shell=True)
         (nya_x4, x_err4) = nya_x4.communicate()
         nya_x5=sp.Popen(['fastboot','erase','system'],stdout=sp.PIPE,shell=True)
@@ -464,7 +479,9 @@ def wipe_device(): #Not tested since i dont have any device i can wipe!
         nya_x7=sp.Popen(['fastboot','erase','system','-w'],stdout=sp.PIPE,shell=True)
         (nya_x7, x_err7) = nya_x7.communicate()
         nya_x8=sp.Popen(['fastboot','format','userdata'],stdout=sp.PIPE,shell=True)
-        (nya_x8, x_err8) = nya_x8.communicate()       
+        (nya_x8, x_err8) = nya_x8.communicate()   
+        nya_x9=sp.Popen(['fastboot','erase','userdata'],stdout=sp.PIPE,shell=True)
+        (nya_x9, x_err4) = nya_x9.communicate()    
     if device_mode=="adb":
         nya_x=sp.Popen(['adb','shell','recovery','-wipe_data'],stdout=sp.PIPE,shell=True)
         (nya_x, x_err) = nya_x.communicate()
@@ -545,7 +562,7 @@ def flash_custom_partition_fastboot():
         if file is not None and partition_name!="":
             nya_x=sp.Popen(['fastboot','flash',f'{partition_name}',f'{file.name}'],stdout=sp.PIPE,shell=True)
             (nya_x, x_err) = nya_x.communicate()
-def flash_batch_file(): #Not Implemented Yet (Work In Progress <!>)
+def flash_batch_file(): #Not Implemented Yet (Work In Progress Use With Caution <!>)
     if device_mode=="adb":
         reboot_bootloader()
     elif device_mode=="fastboot":
@@ -554,7 +571,30 @@ def flash_batch_file(): #Not Implemented Yet (Work In Progress <!>)
             if ".bat" in file.name or ".cmd" in file.name:
                 nya_x=sp.Popen(['start','/b',f'{dq}NYA:Flash{dq}',f'{dq}{file.name}{dq}'],stdout=sp.PIPE,shell=True)
                 (nya_x, x_err) = nya_x.communicate()
-                print(str(nya_x))
+def device_info():
+    print("dev_mode: "+device_mode)
+    if device_mode=="fastboot":
+        nya_x=sp.Popen(['fastboot','oem','device-info'],stdout=sp.PIPE,shell=True)
+        (nya_x, x_err) = nya_x.communicate()
+    elif device_mode=="adb":
+        nya_x=sp.Popen(['adb','shell','getprop'],stdout=sp.PIPE,shell=True)
+        (nya_x, x_err) = nya_x.communicate()
+        os.system(f"{nya_x} >> device_info.txt")
+        nya_x=str(nya_x)
+        nya_x=nya_x.replace("'","")
+        nya_x=nya_x.replace("b'","")
+        nya_x=nya_x.split("\\r\\n") #n
+        x=""
+        for n in nya_x:
+            x=x+"\n"+n
+        current_dir=os.getcwd()+"\\"
+        dev_info_exists=os.path.exists(current_dir+"device_info.txt")
+        if dev_info_exists:
+            try:os.remove(current_dir+"device_info.txt")
+            except Exception as e:print(e)
+        with open('device_info.txt', 'w') as f:
+            f.write(x)
+        print(x)
 def show_info():
     #Throw infobox to user at start
     try:messagebox.showinfo(title=a46,message=a31+a32+a33+a34)
@@ -598,7 +638,7 @@ rebootboot.grid(row=8,column=0,sticky=W)
 RebootRecovery=Button(w,text=a17,width=24,command=reboot_recovery)
 RebootRecovery.grid(row=8,column=1,sticky=W)
 #RebootSystem
-RebootSystem=Button(w,text=a18,width=24,command=reboot_system_fastboot)
+RebootSystem=Button(w,text=a18,width=24,command=reboot_system)
 RebootSystem.grid(row=9,column=0,sticky=W)
 #SideloadFirmware
 SideloadFirmware=Button(w,text=a36,width=24,command=sideload_firmware)
@@ -606,6 +646,9 @@ SideloadFirmware.grid(row=9,column=1,sticky=W)
 #RebootDownload
 RebootDownload=Button(w,text=a45,width=24,command=reboot_download)
 RebootDownload.grid(row=10,column=0,sticky=W)
+#DeviceInfo2
+DeviceInfo2=Button(w,text=a48,width=24,command=device_info)
+DeviceInfo2.grid(row=10,column=1,sticky=W)
 
 #MenuAyracı
 ayrac=Label (w, text="FAST BOOT / "+a43,font="none 12 bold");ayrac.grid(row=11,column=0,sticky=W)
@@ -625,44 +668,48 @@ RebootSystemFastBoot=Button(w,text=a18,width=24,command=reboot_system_fastboot)
 RebootSystemFastBoot.grid(row=13,column=1,sticky=W)
 
 #MenuAyracı
-ayrac=Label (w, text="FAST BOOT / ",font="none 12 bold");ayrac.grid(row=14,column=0,sticky=W)
-ayrac=Label (w, text=a42,font="none 12 bold");ayrac.grid(row=14,column=1,sticky=W)
+ayrac=Label (w, text="FAST BOOT / "+a42,font="none 12 bold");ayrac.grid(row=14,column=0,sticky=W)
+#ayrac=Label (w, text=a42,font="none 12 bold");ayrac.grid(row=14,column=1,sticky=W)
+#info_Dev_FastBoot
+info_Dev_FastBoot=Button(w,text=a47,width=24,command=device_info)
+info_Dev_FastBoot.grid(row=15,column=0,sticky=W)
 
 #Unlock_Dev_FastBoot
 unlock_Dev=Button(w,text=a19,width=24,command=unlock_dev_fastboot)
-unlock_Dev.grid(row=15,column=0,sticky=W)
+unlock_Dev.grid(row=16,column=0,sticky=W)
 #Lock_Dev
 lock_Dev=Button(w,text=a20,width=24,command=lock_dev_fastboot)
-lock_Dev.grid(row=15,column=1,sticky=W)
+lock_Dev.grid(row=16,column=1,sticky=W)
+
 
 #MenuAyracı
-ayrac=Label (w, text="FAST BOOT / Flash",font="none 12 bold");ayrac.grid(row=16,column=0,sticky=W)
+ayrac=Label (w, text="FAST BOOT / Flash",font="none 12 bold");ayrac.grid(row=17,column=0,sticky=W)
 
 #FlashBootFastBoot
 FlashBootFastBoot=Button(w,text=a22,width=24,command=flash_boot_fastboot)
-FlashBootFastBoot.grid(row=17,column=0,sticky=W)
+FlashBootFastBoot.grid(row=18,column=0,sticky=W)
 #FlashRecoveryFastBoot
 FlashRecoveryFastBoot=Button(w,text=a23,width=24,command=flash_recovery_fastboot)
-FlashRecoveryFastBoot.grid(row=17,column=1,sticky=W)
+FlashRecoveryFastBoot.grid(row=18,column=1,sticky=W)
 #FlashSystemFastBoot
 FlashSystemFastBoot=Button(w,text=a24,width=24,command=flash_system_fastboot)
-FlashSystemFastBoot.grid(row=18,column=0,sticky=W)
+FlashSystemFastBoot.grid(row=19,column=0,sticky=W)
 #FlashUserdataFastBoot
 FlashUserdataFastBoot=Button(w,text=a25,width=24,command=flash_userdata_fastboot)
-FlashUserdataFastBoot.grid(row=18,column=1,sticky=W)
+FlashUserdataFastBoot.grid(row=19,column=1,sticky=W)
 #FlashZipFastBoot
 FlashZipFastBoot=Button(w,text=a26,width=24,command=flash_zip_fastboot)
-FlashZipFastBoot.grid(row=19,column=0,sticky=W)
+FlashZipFastBoot.grid(row=20,column=0,sticky=W)
 #FlashKernelFastBoot
 FlashKernelFastBoot=Button(w,text=a27,width=24,command=boot_kernel_fastboot)
-FlashKernelFastBoot.grid(row=19,column=1,sticky=W)
+FlashKernelFastBoot.grid(row=20,column=1,sticky=W)
 #FastbootCustomPartitionFlashLabel
-ayrac=Label (w, text=a39,font="none 10");ayrac.grid(row=20,column=0,sticky=W)
+ayrac=Label (w, text=a39,font="none 10");ayrac.grid(row=21,column=0,sticky=W)
 #FastbootCustomPartitionFlashBox
-PartitionFlash=Entry(w,textvariable='',width=40);PartitionFlash.grid(row=20,column=1,sticky=W)
+PartitionFlash=Entry(w,textvariable='',width=40);PartitionFlash.grid(row=21,column=1,sticky=W)
 #FastbootCustomPartitionFlash
 FastbootCustomPartitionFlash=Button(w,text=a38,width=24,command=flash_custom_partition_fastboot)
-FastbootCustomPartitionFlash.grid(row=21,column=1,sticky=W)
+FastbootCustomPartitionFlash.grid(row=22,column=1,sticky=W)
 #Fastbootflash_batch_file
 Fastbootflash_batch_file=Button(w,text=a44,width=24,command=flash_batch_file)
 Fastbootflash_batch_file.grid(row=22,column=0,sticky=W)
