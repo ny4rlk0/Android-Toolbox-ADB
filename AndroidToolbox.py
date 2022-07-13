@@ -1,4 +1,3 @@
-from dataclasses import replace
 import datetime;import time;from tkinter import *;from tkinter import messagebox;from tkinter import Text;from tkinter import filedialog;from tkinter.ttk import *;from threading import Thread as core;import os;import subprocess as sp;import sys
 #github.com/ny4rlk0 && nyarlko.com
 #
