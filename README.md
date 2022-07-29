@@ -17,7 +17,7 @@
 <br>Bu programın işlevlerinin çoğu ADB'in açık olmasını ve bir kısmı Önyükleyici (Bootloader) kilidinin açık olmasını gerektirir.
 <br>Samsung telefonları Download Mode tek tuşla alabilirsiniz.
 <br>
-<br>----------Rootlama Anlatımı Redmi Note 10S için-----------
+<br>Rootlama Anlatımı Redmi Note 10S için
 <br>Önyükleme kilidinizi Resmi yazılımla açın.
 <br>Mevcut Firmware dosyanızdan images klasöründen boot.img telefonunuzun SD kartına kopyalayın.
 <br>Cihazınızı Fastboot Moduna alın.
@@ -32,7 +32,7 @@
 <br>Bu çin tarafından bırakılmış bir arka kapıya benzettim sanki?
 <br>Birde size not SmartRatSwitch apk dosyasını sildiğiniz zaman sistem hiç bir şekilde açılmıyor. Bootloopda kalıyorsunuz yani denemeyin.
 <br>Ayrıca TWRP'den sideload'a basıp yazılım üzerinden istediğiniz .zip dosyasını TWRP'de ilerlemesini görerek yükleyebilirsiniz. Recovery/Fastboot romları gibi.
-<br>--------------
+<br>
 <br>EN
 ---------------
 <br>All in one android toolbox. Backup / Restore entire apks in single device or folder, from usb or wifi. Wifi over ADB / USB ADB / <br>Fastboot / flash /  lock / unlock / wipe / boot recovery , temp boot to kernel etc.
