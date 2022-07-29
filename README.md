@@ -16,7 +16,23 @@
 <br>Programı her güncellediğimde ss'yi değiştirmek uğraştırıcı olmaya başladığı için ekran görüntüleri gerçek programdan farklı olabilir.
 <br>Bu programın işlevlerinin çoğu ADB'in açık olmasını ve bir kısmı Önyükleyici (Bootloader) kilidinin açık olmasını gerektirir.
 <br>Samsung telefonları Download Mode tek tuşla alabilirsiniz.
-
+<br>----------Rootlama Anlatımı Redmi Note 10S için-----------
+<br>Önyükleme kilidinizi Resmi yazılımla açın.
+<br>Mevcut Firmware dosyanızdan images klasöründen boot.img telefonunuzun SD kartına kopyalayın.
+<br>Cihazınızı Fastboot Moduna alın.
+<br>TWRP recoveryi boot kısmına yükleyin.
+<br>Cihazı yeniden başlatmadan Fastboot Menüsünden Recovery'e basın.
+<br>TWRP açılınca boot kısmına ilk adımdaki boot.img flashlayın. Tek partitiona. 
+<br>(Bunu yapmamızın sebebi cihaz twrp boot partitiona flashlı iken sadece TWRP boot ediyor. System'e boot etmiyor.)
+<br>Userdata'yı yes yazarak formatlayın.
+<br>System'i mount edin ve Magisk flashlayın.
+<br>Cihazı yeniden başlatın.
+<br>Not: Detaylı sistem kontrolü yaparken "com.mediatek.smartratswitch.service.apk" bir apk dosyası buldum.
+<br>Bu çin tarafından bırakılmış bir arka kapıya benzettim sanki? Aynı şekilde Nobody kullanıcısının neden internet erişimi var?
+<br>Bunuda TP-Link Cihazlardaki arka kapıya benzettim sanki?
+<br>Birde size not SmartRatSwitch apk dosyasını sildiğiniz zaman sistem hiç bir şekilde açılmıyor. Bootloopda kalıyorsunuz yani denemeyin.
+<br>Ayrıca TWRP'den sideload'a basıp yazılım üzerinden istediğiniz .zip dosyasını TWRP'de ilerlemesini görerek yükleyebilirsiniz. Fastboot romları gibi.
+<br>--------------
 <br>EN
 ---------------
 <br>All in one android toolbox. Backup / Restore entire apks in single device or folder, from usb or wifi. Wifi over ADB / USB ADB / <br>Fastboot / flash /  lock / unlock / wipe / boot recovery , temp boot to kernel etc.
