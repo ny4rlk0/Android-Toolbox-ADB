@@ -32,7 +32,7 @@
 <br>Bu çin tarafından bırakılmış bir arka kapıya benzettim sanki? Aynı şekilde Nobody kullanıcısının neden internet erişimi var?
 <br>Bunuda TP-Link Cihazlardaki arka kapıya benzettim sanki?
 <br>Birde size not SmartRatSwitch apk dosyasını sildiğiniz zaman sistem hiç bir şekilde açılmıyor. Bootloopda kalıyorsunuz yani denemeyin.
-<br>Ayrıca TWRP'den sideload'a basıp yazılım üzerinden istediğiniz .zip dosyasını TWRP'de ilerlemesini görerek yükleyebilirsiniz. Fastboot romları gibi.
+<br>Ayrıca TWRP'den sideload'a basıp yazılım üzerinden istediğiniz .zip dosyasını TWRP'de ilerlemesini görerek yükleyebilirsiniz. Recovery/Fastboot romları gibi.
 <br>--------------
 <br>EN
 ---------------
