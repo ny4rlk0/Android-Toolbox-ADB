@@ -29,8 +29,7 @@
 <br>System'i mount edin ve Magisk flashlayın.
 <br>Cihazı yeniden başlatın.
 <br>Not: Detaylı sistem kontrolü yaparken "com.mediatek.smartratswitch.service.apk" bir apk dosyası buldum.
-<br>Bu çin tarafından bırakılmış bir arka kapıya benzettim sanki?
-<br>Birde size not SmartRatSwitch apk dosyasını sildiğiniz zaman sistem hiç bir şekilde açılmıyor. Bootloopda kalıyorsunuz yani denemeyin.
+<br>Radio Accesss Technology Switch yani Ağ değişimini yapan bir apk bu. Özellikle belirtmek istedim çünkü kısaltması Remote Access Trojan ile karıştırılabilir.
 <br>Ayrıca TWRP'den sideload'a basıp yazılım üzerinden istediğiniz .zip dosyasını TWRP'de ilerlemesini görerek yükleyebilirsiniz. Recovery/Fastboot romları gibi.
 <br>
 <br>EN
