@@ -29,7 +29,8 @@
 <br>System'i mount edin ve Magisk flashlayın.
 <br>Cihazı yeniden başlatın.
 <br>Not: Detaylı sistem kontrolü yaparken "com.mediatek.smartratswitch.service.apk" bir apk dosyası buldum.
-<br>Radio Accesss Technology Switch yani Ağ değişimini yapan bir apk bu. Özellikle belirtmek istedim çünkü kısaltması Remote Access Trojan ile karıştırılabilir.
+<br><a href="https://www.reddit.com/r/Xiaomi/comments/qkfiy4/comment/ii3vkzl/?utm_source=share&utm_medium=web2x&context=3">Radio Accesss Technology Switch yani Ağ değişimini yapan bir apk bu.</a> 
+<br>Özellikle belirtmek istedim çünkü kısaltması Remote Access Trojan ile karıştırılabilir.
 <br>Ayrıca TWRP'den sideload'a basıp yazılım üzerinden istediğiniz .zip dosyasını TWRP'de ilerlemesini görerek yükleyebilirsiniz. Recovery/Fastboot romları gibi.
 <br>
 <br>EN
