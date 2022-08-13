@@ -4,7 +4,6 @@
 <br>TR
 ---------------
 <br>Hepsi bir arada android alet çantası. 
-<br><b><u>Türkiyenin ilk android cihaz yazılımı atma aracı</u></b></b> 😤✌🏆. 
 <br>Tüm apk'leri tek bir cihazda veya klasörde, usb veya wifi'den yedekleyin / geri yükleyin. ADB / USB ADB üzerinden Wifi /
 <br>Fastboot / flash / kilit / kilit açma / silme / önyükleme kurtarma, çekirdeğe geçici önyükleme vb.
 <br>Wifi Ters Kabuk 2 ayrı komut satırı olarak çalışır.
