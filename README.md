@@ -16,6 +16,8 @@
 <br>Bu programın işlevlerinin çoğu ADB'in açık olmasını ve bir kısmı Önyükleyici (Bootloader) kilidinin açık olmasını gerektirir.
 <br>Samsung telefonları Download Mode tek tuşla alabilirsiniz.
 <br>
+<br> ! Cihaz Önyükleyici kilidini açmak / kilitlemek  telefon markanıza bağlı olarak cihazınızın içerisindeki
+<br> ! Tüm içeriğin silinmesine sebep olabilir.
 <br>Cihaz sürücülerini ADBDriversInstall.CMD'yi yönetici olarak açarak yükleyin.
 <br>Rootlama Anlatımı Redmi Note 10S için
 <br>Önyükleme kilidinizi Resmi yazılımla açın.
