@@ -16,6 +16,7 @@
 <br>Bu programın işlevlerinin çoğu ADB'in açık olmasını ve bir kısmı Önyükleyici (Bootloader) kilidinin açık olmasını gerektirir.
 <br>Samsung telefonları Download Mode tek tuşla alabilirsiniz.
 <br>
+<br>Cihaz sürücülerini ADBDriversInstall.CMD'yi yönetici olarak açarak yükleyin.
 <br>Rootlama Anlatımı Redmi Note 10S için
 <br>Önyükleme kilidinizi Resmi yazılımla açın.
 <br>Mevcut Firmware dosyanızdan images klasöründen boot.img telefonunuzun SD kartına kopyalayın.
@@ -34,6 +35,7 @@
 <br>
 <br>EN
 ---------------
+<br>Install drivers from ADBDriverInstall.CMD
 <br>All in one android toolbox. Backup / Restore entire apks in single device or folder, from usb or wifi. Wifi over ADB / USB ADB / <br>Fastboot / flash /  lock / unlock / wipe / boot recovery , temp boot to kernel etc.
 <br>Wifi Reverse Shell works as 2 seperate command line.
 <br>If your device in fastboot mode it will use fastboot.exe
