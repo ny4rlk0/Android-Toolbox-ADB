@@ -18,6 +18,7 @@
 <br>
 <br> ! Cihaz Önyükleyici kilidini açmak / kilitlemek  telefon markanıza bağlı olarak cihazınızın içerisindeki
 <br> ! Tüm içeriğin silinmesine sebep olabilir.
+<br>
 <br>Cihaz sürücülerini ADBDriversInstall.CMD'yi yönetici olarak açarak yükleyin.
 <br>Rootlama Anlatımı Redmi Note 10S için
 <br>Önyükleme kilidinizi Resmi yazılımla açın.
@@ -37,6 +38,10 @@
 <br>
 <br>EN
 ---------------
+<br>
+<br> ! Unlocking/Locking bootloader might trigger a system wide wipe (reset)
+<br> ! On your android phone. (Depends on your brand.)
+<br>
 <br>Install drivers from ADBDriverInstall.CMD
 <br>All in one android toolbox. Backup / Restore entire apks in single device or folder, from usb or wifi. Wifi over ADB / USB ADB / <br>Fastboot / flash /  lock / unlock / wipe / boot recovery , temp boot to kernel etc.
 <br>Wifi Reverse Shell works as 2 seperate command line.
