@@ -11,7 +11,7 @@
 <br>Cihazınız ADB hata ayıklama modundaysa adb.exe'yi kullanır.
 <br>USB'den cihaza, Wifi Reverse Shell'den de komut gönderebilirsiniz.
 <br>* Not:
-<br>ADB / FASTBOOT sürücülerinizi kurmayı unutmayınız...
+<br>ADB / FASTBOOT sürücülerinizi kurmayı unutmayınız... (ADBDriversInstall.CMD)
 <br>Programı her güncellediğimde ss'yi değiştirmek uğraştırıcı olmaya başladığı için ekran görüntüleri gerçek programdan farklı olabilir.
 <br>Bu programın işlevlerinin çoğu ADB'in açık olmasını ve bir kısmı Önyükleyici (Bootloader) kilidinin açık olmasını gerektirir.
 <br>Samsung telefonları Download Mode tek tuşla alabilirsiniz.
@@ -20,6 +20,7 @@
 <br> ! Tüm içeriğin silinmesine sebep olabilir.
 <br>
 <br>Cihaz sürücülerini ADBDriversInstall.CMD'yi yönetici olarak açarak yükleyin.
+<br>
 <br>Rootlama Anlatımı Redmi Note 10S için
 <br>Önyükleme kilidinizi Resmi yazılımla açın.
 <br>Mevcut Firmware dosyanızdan images klasöründen boot.img telefonunuzun SD kartına kopyalayın.
