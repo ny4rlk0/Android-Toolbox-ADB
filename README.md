@@ -3,6 +3,7 @@
 <br><a href="https://github.com/ny4rlk0/Android-Toolbox-ADB/releases/download/v2.5/Android_Toolbox@nyarlko_v2.5.zip">İndir / Download v2.5</a>
 <br>TR
 ---------------
+<br><!>Kendime not<!>: yazılım içine otomatik sürücü yükleme desteği ekle.
 <br>Hepsi bir arada android alet çantası. 
 <br>Tüm apk'leri tek bir cihazda veya klasörde, usb veya wifi'den yedekleyin / geri yükleyin. ADB / USB ADB üzerinden Wifi /
 <br>Fastboot / flash / kilit / kilit açma / silme / önyükleme kurtarma, çekirdeğe geçici önyükleme vb.
